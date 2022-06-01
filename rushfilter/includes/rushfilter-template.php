@@ -15,6 +15,7 @@ function rushfilter_filter($atts){
     
 	extract( shortcode_atts( array(
 		'post_type' => '',
+        'post_id' => '',
 	), $atts ) );
 
 
@@ -34,18 +35,27 @@ function rushfilter_filter($atts){
     if (in_array($post_type, $get_post_type_db)) {
         array_push($set_post_type, $post_type);
     }
-    
 
 
-    //print_r($set_post_type);
+// Get post type db id
 
+if (in_array($post_type, $get_post_type_db)) {
+    $set_post_id = $post_id;
+}
+
+// print_r($set_post_id );
+
+if ( in_array($post_type, $get_post_type_db) ) {
+    $getResult_tax =  $wpdb->get_results("SELECT * FROM $table_name WHERE id = $set_post_id ");
     $tax_array = array();
-    $taxonomies = get_object_taxonomies( $set_post_type ); 
-    foreach( $taxonomies as $taxonomy ) {
-        array_push($tax_array, $taxonomy);
+  
+    foreach( $getResult_tax as $getResults ) {
+        array_push($tax_array, $getResults->post_taxonomy);
     }
 
-//print_r($set_post_type);
+    $explode_taxs = explode(',', $tax_array[0]);
+    // print_r($explode_taxs);
+}
 
 ?>
 
@@ -68,33 +78,26 @@ $query = new wp_query($args);
     <div class="rushfilter-wrap">
         <div class="content">
             <div class="items-row">
+
                 <div id="filters-column">
                 <form action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" id="filter">
+
+
+                <?php 
+                if($explode_taxs){
+                    foreach( $explode_taxs as $explode_tax ) {
+                        // print_r($explode_tax);
+                ?>
+                <div class="single-filter-item">
+                <div id="accordion" class="rushfilter-row">
                 <?php
-                    echo '<div id="accordion" class="rushfilter-row">';
                     if ( in_array($post_type, $get_post_type_db) ) {
-                            echo '<h2 class="filter-heading">Categories <span class="icon"><img src="'. plugin_dir_url( __FILE__ ) . '../assets/images/angle-down-solid.svg' .'"></span></h2>';
-                            echo '<div class="rushfilter-items">';
-                            if( $terms = get_terms( array( 'post_type' => $set_post_type, 'taxonomy' => $tax_array, 'hide_empty' => true ) ) ) :
-                                foreach( $terms as $term ) :
-                                        echo '<div class="rushfilter-item">';
-                                        echo '<input type="checkbox" class="checkbox" id="' .$term->term_id. '" name="categoryfilter[]" value="' .$term->term_id. '">
-                                    <label for="categoryfilter">' .$term->name. '</label><br>';
-                                        echo '</div>';
-                             
-                    
-                                endforeach;
-                    
-                            endif;
-                            echo '</div>';
-                        }
 
-
-                        if ( in_array($post_type, $get_post_type_db) ) {
-                            echo '<h2 class="filter-heading">Tags <span class="icon"><img src="'. plugin_dir_url( __FILE__ ) . '../assets/images/angle-down-solid.svg' .'"></span></h2>';
-                    
+                       echo '<h2 class="filter-heading">'. $explode_tax .' <span class="icon"><img src="'. plugin_dir_url( __FILE__ ) . '../assets/images/angle-down-solid.svg' .'"></span></h2>';
+     
+                           
                             echo '<div class="rushfilter-items">';
-                            if( $terms = get_terms( array( 'post_type' => $set_post_type, 'taxonomy' => $tax_array, 'hide_empty' => true ) ) ) :
+                            if( $terms = get_terms( array( 'post_type' => $set_post_type, 'taxonomy' => $explode_tax, 'hide_empty' => true ) ) ) :
                                 foreach( $terms as $term ) :
                                         echo '<div class="rushfilter-item">';
                                         echo '<input type="checkbox" class="checkbox" id="' .$term->term_id. '" name="categoryfilter[]" value="' .$term->term_id. '">
@@ -104,9 +107,12 @@ $query = new wp_query($args);
                             endif;
                             echo '</div>';
                         }
-                            echo '</div>';
-                    
                         ?>
+                        </div>
+                    </div>
+                    <?php } } ?>
+
+
                     <input type="hidden" name="action" value="myfilter">
                 </form>
                 </div>
@@ -179,7 +185,7 @@ if ( in_array($post_type, $get_post_type_db) ) {
                             
                             <h2 class="rushfilter-heading"><a href="<?php the_permalink(); ?>"><?php
                                 the_title();
-                            ?></h2></a>
+                            ?></a></h2>
                             <div class="rushfilter-excerpt">
                             <?php
                                 $str = get_the_excerpt($post->ID);
@@ -205,6 +211,7 @@ if ( in_array($post_type, $get_post_type_db) ) {
 
                         <?php
                             endwhile;
+                            wp_reset_postdata();
                         ?>
 
                     </div>

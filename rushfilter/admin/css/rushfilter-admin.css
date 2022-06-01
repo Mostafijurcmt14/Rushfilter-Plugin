@@ -292,6 +292,25 @@ margin-top: 30px;
 	    font-size: 15px;
     font-weight: 500;
 }
+.rushfilter-create-form .rush-tax-checkbox{
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+}
+.rushfilter-create-form .rush-tax-checkbox label{
+    margin: 0;
+}
+.rushfilter-create-form input[type=checkbox]{
+    height: 20px;
+    width: 20px;
+    margin: 0;
+    margin-right: 8px;
+}
+.rushfilter-create-form input[type=checkbox]:checked::before {
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+}
 .rushfilter-create-form select{
     height: 42px;
     width: 100%;
@@ -308,6 +327,7 @@ margin-top: 30px;
 }
 .rushfilter-create-form label:first-child{
     margin-top: 0px;
+    margin-bottom: 18px;
 }
 .rushfilter-create-form .rushfilter-submit{
 	height: 50px;

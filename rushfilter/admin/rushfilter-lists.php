@@ -29,7 +29,7 @@ include( plugin_dir_path(__FILE__) . 'rushfilter-header.php' );
 			?>
 			<tr>
 				<td><?php echo $getResults->id; ?></td>
-				<td class="shortcode-td"><span>[rushfilter_filter post_type="<?php echo $getResults->post_type; ?>"]</span></td>
+				<td class="shortcode-td"><span>[rushfilter_filter post_id="<?php echo $getResults->id; ?>" post_type="<?php echo $getResults->post_type; ?>"]</span></td>
 				<td class="center col-small"><?php echo $getResults->post_name; ?></td>
 				<td class="center col-small">
 					<label class="switch">
