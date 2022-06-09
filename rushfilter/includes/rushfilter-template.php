@@ -79,12 +79,13 @@ $query = new wp_query($args);
         <div class="content">
             <div class="items-row">
 
+
                 <div id="filters-column">
-                <form action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" id="filter">
+                <form action="" method="POST" id="rushpostfilter">
 
 
                 <?php 
-                if($explode_taxs){
+                if(isset( $explode_taxs )){
                     foreach( $explode_taxs as $explode_tax ) {
                         // print_r($explode_tax);
                 ?>
@@ -100,8 +101,8 @@ $query = new wp_query($args);
                             if( $terms = get_terms( array( 'post_type' => $set_post_type, 'taxonomy' => $explode_tax, 'hide_empty' => true ) ) ) :
                                 foreach( $terms as $term ) :
                                         echo '<div class="rushfilter-item">';
-                                        echo '<input type="checkbox" class="checkbox" id="' .$term->term_id. '" name="categoryfilter[]" value="' .$term->term_id. '">
-                                    <label for="categoryfilter">' .$term->name. '</label><br>';
+                                        echo '<input type="checkbox" class="checkbox" id="' .$term->term_id. '" name="'. $term->taxonomy.'filter[]" value="' .$term->term_id. '">
+                                    <label for="'. $term->taxonomy.'filter">' .$term->name. '</label><br>';
                                         echo '</div>';
                                 endforeach;
                             endif;
@@ -112,8 +113,43 @@ $query = new wp_query($args);
                     </div>
                     <?php } } ?>
 
+                    
+                        
+            <div class="single-filter-item">
+                <div id="accordion" class="rushfilter-row">
+                <?php
+                       echo '<h2 class="filter-heading">Post views <span class="icon"><img src="'. plugin_dir_url( __FILE__ ) . '../assets/images/angle-down-solid.svg' .'"></span></h2>';
+                            echo '<div class="rushfilter-items">';
+                                        echo '<div class="rushfilter-item range-input">';
+                                        ?>
+                                        <input type="range" id="rushfilter-range" name="rangeInput" min="10" max="100" value="10" step="1">
+                                        <input type="text" id="rushfilter-rangevalue" value="10">
+                                       <?php
+                                        echo '</div>';
+                            echo '</div>';
+                        ?>
+                    </div>
+            </div>
 
-                    <input type="hidden" name="action" value="myfilter">
+
+
+            <div class="single-filter-item">
+                <div id="accordion" class="rushfilter-row">
+                <?php
+                       echo '<h2 class="filter-heading">Author <span class="icon"><img src="'. plugin_dir_url( __FILE__ ) . '../assets/images/angle-down-solid.svg' .'"></span></h2>';
+                            echo '<div class="rushfilter-items">';
+                                        echo '<div class="rushfilter-item">';
+                                        echo '<input type="radio" id="rushfilter-author-radio" name="rushfilter-radio" value=""><label for="rushfilter-radio">Admin</label><br>';
+                                        echo '</div>';
+                            echo '</div>';
+                        ?>
+                    </div>
+            </div>
+
+            <input type="hidden" name="action" value="global_post_type_action">
+            <input type = "hidden" id="post_type_hidden" name = "post_type_hidden" value = "<?php echo $post_type ?>">
+
+
                 </form>
                 </div>
 
@@ -134,7 +170,8 @@ if ( in_array($post_type, $get_post_type_db) ) {
                 ?>
                 
                 <div id="rushfilter-posts-column">
-                    <div class="rushfilter-posts-row">
+                    <h2 class="post-filter-heading">Blog posts</h2>
+                    <div id ="filterResponse" class="rushfilter-posts-row">
                         <?php
                             while ( $post_query->have_posts() ) : $post_query->the_post();
                             $author_id = $post->post_author;	
@@ -213,8 +250,12 @@ if ( in_array($post_type, $get_post_type_db) ) {
                             endwhile;
                             wp_reset_postdata();
                         ?>
-
+                    
                     </div>
+                    <div class="rushfilter-loadmore-row">
+                                <div class="rushfilter-post-count">Showing <span>12</span> of <span>17</span></div>
+                                <a href="javascript:void(0" class="rushfilter-loadmore">Load more</a>
+                            </div>
                 </div>
 
                 <?php } ?>

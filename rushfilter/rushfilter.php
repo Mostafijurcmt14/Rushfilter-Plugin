@@ -58,8 +58,12 @@ class rushFilterMainClass {
 		// Rush Filter FrontEnd Script
 		add_action( 'wp_enqueue_scripts', [ $this, 'rush_filter_frontend_enqueue_script' ] ); 
 
-
+		// Rush Filter Post Type Tax Name Ajax Action
 		add_action( 'wp_ajax_get_post_tax_name_action', [ $this, 'get_post_type_tax_name' ] );
+
+		// Rush Filter Main Post Filter Ajax Action
+		add_action('wp_ajax_global_post_type_action', [ $this, 'global_get_ajax_request_post_filter'] ); 
+		add_action('wp_ajax_nopriv_global_post_type_action', [ $this, 'global_get_ajax_request_post_filter'] );
 
 		// Includes
 		require_once('includes/rushfilter-template.php');
@@ -118,7 +122,7 @@ class rushFilterMainClass {
 		
 		wp_enqueue_script( 'rush-filter-admin-js', plugin_dir_url( __FILE__ ) . 'admin/js/rushfilter-admin.js',['jquery'], $this->version, true );
 	
-		//Localaization
+		//Localize for admin page
 		wp_localize_script('rush-filter-admin-js','url_ajax_global',[
 			'ajax_url'    => admin_url( 'admin-ajax.php' ), // Ajax URL
 		  ]
@@ -135,8 +139,16 @@ class rushFilterMainClass {
 		
 		wp_enqueue_script( 'rush-filter-ui-js', plugin_dir_url( __FILE__ ) . 'assets/js/jquery-ui.js', $this->version, true, 10 );
 
-		wp_enqueue_script( 'rush-filter-frontend-js', plugin_dir_url( __FILE__ ) . 'assets/js/frontend.js', $this->version, true, 12 );
+		wp_enqueue_script( 'rush-filter-frontend-js', plugin_dir_url( __FILE__ ) . 'assets/js/frontend.js',['jquery'], $this->version, true, 12 );
 
+		//Localize for frontend filter page global
+		wp_localize_script(
+			'rush-filter-frontend-js','rushfilter_frontend_global_url',[
+				'ajax_url' => admin_url( 'admin-ajax.php' ), // Ajax URL
+			]
+		);
+
+		wp_enqueue_script('rush-filter-frontend-js');
 	}
 
 /*
@@ -182,6 +194,7 @@ class rushFilterMainClass {
 		);
 	}
 	
+
 // Get post type tax name from ajax request
 public function get_post_type_tax_name(){
 	?> 
@@ -203,6 +216,135 @@ public function get_post_type_tax_name(){
 	<?php
 	wp_die();  
 }
+
+
+
+
+
+
+
+// Get global post filter data from ajax request
+function global_get_ajax_request_post_filter(){
+	global $post;
+
+	$get_post_type = $_POST['post_type_hidden'];
+
+	$args = json_decode( stripslashes( $_POST['query'] ), true );
+	$args = array(
+	'post_type' => 'post',
+	'orderby' => $_POST['date'],
+	'post_status' => 'publish',
+	'order' => 'ASC',
+	'posts_per_page' => -1,
+	);
+
+
+
+	if(isset($_POST['categoryfilter'])){
+		$args['tax_query'] = array(
+			'relation' => 'OR',
+			array(
+				'taxonomy' => 'category',
+				'field' => 'id',
+				'terms' => $_POST['categoryfilter'],
+				'operator' => 'IN',
+			),	
+		);
+	}
+
+	
+
+
+	$post_query = new wp_query($args);
+
+	?>
+	<?php
+	   while ( $post_query->have_posts() ) : $post_query->the_post();
+	   $author_id = $post->post_author;	
+	   $author_id = get_the_author_meta( 'ID' );
+	   $author_image = the_author_meta( 'avatar' , $author_id );
+	   ?>
+	<div class="rushfilter-post-item">
+	   <div class="author-head">
+		  <div class="author-image">
+			 <img src="<?php if( $author_image){
+				the_author_meta( 'avatar' , $author_id );
+				}else{
+				echo plugin_dir_url( __FILE__ ) . '/assets/images/author-image.jpg';
+				} ?>">
+		  </div>
+		  <div class="author-name">
+			 <h3><?php 
+				$get_author = get_the_author_meta( 'user_nicename', $author_id );
+				echo $get_author;
+				?> <span><?php
+				$first_name = get_the_author_meta( 'first_name', $author_id );
+				$last_name = get_the_author_meta( 'last_name', $author_id );
+				$full_name = "{$first_name} {$last_name}";
+				echo $full_name;
+				?></span></h3>
+		  </div>
+	   </div>
+	   <div class="feature-image">
+		  <a href="<?php the_permalink(); ?>">
+		  <?php
+			 if( has_post_thumbnail() ){
+				 the_post_thumbnail();   
+			 }
+			 ?>
+		  </a>
+	   </div>
+	   <?php
+		  $posttags = get_the_tags($post->ID);
+		  if ($posttags) {
+			foreach($posttags as $tag) {
+				?>
+	   <h3 class="rushfilter-subheading"><?php echo $tag->name . ' '; ?></h3>
+	   <?php
+		  }
+		  }
+		  ?>
+	   <h2 class="rushfilter-heading"><a href="<?php the_permalink(); ?>"><?php
+		  the_title();
+		  ?></a></h2>
+	   <div class="rushfilter-excerpt">
+		<?php
+			 global $post;
+			$str = get_the_excerpt($post->ID);
+			$length = 50;
+			if($get_post_type == "post"){	
+				if (strlen($str) > $length){
+					$str = substr($str, 0, $length) . '...';
+				}
+			}
+			echo $str;
+			
+		?>
+	   </div>
+	   <div class="rushfilter-meta-info">
+		  <div class="date"><span>
+			 <?php
+				$post_date = get_the_date( 'l, j F Y', $post->ID ); 
+				echo $post_date;
+				?>
+			 </span>
+		  </div>
+	   </div>
+	</div>
+	<?php
+	   endwhile;
+	   	wp_reset_postdata();
+	   ?>
+	<?php
+
+	die();
+	}
+
+
+
+
+
+
 
 /*
 * Rush filter all admin menu calback function

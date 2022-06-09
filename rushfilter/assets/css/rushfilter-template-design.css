@@ -2,6 +2,10 @@
 #rushfilter-main{
     font-family: 'Ubuntu', sans-serif;
 }
+#rushfilter-main .rushfilter-wrap .content{
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
 #rushfilter-main .items-row{
     display: flex;
     align-items: flex-start;
@@ -10,24 +14,32 @@
     width: 20%;
     margin-right: 5%;
 }
+#rushfilter-main #filters-column .single-filter-item{
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
 #rushfilter-main #rushfilter-posts-column{
     width: 75%;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 0px 20px;
+    border-radius: 0;
+    padding-right: 0;
 }
 #rushfilter-main .rushfilter-items{
-    margin-bottom: 40px;
+    margin-bottom: 0px;
     height: auto !important;
 }
 #rushfilter-main .filter-heading{
     display: block;
     position: relative;
     font-size: 16px;
-    color: #333333;
+    color: #252525;
     line-height: 24px;
+    padding-bottom: 16px;
     margin: 0px 0px 20px 0px;
     justify-content: space-between;
     align-items: center;
+    text-transform: capitalize;
+    border-bottom: 1px solid rgba(0,0,0,.05);
 }
 #rushfilter-main .filter-heading .icon{
     position:absolute;
@@ -43,6 +55,8 @@
 #rushfilter-main .rushfilter-item{
     color: #434343;
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
 }
 #rushfilter-main .checkbox{
     width: 20px;
@@ -56,9 +70,28 @@
     padding-left: 10px;
     font-size: 16px;
     font-weight: 400;
+    color: #727272;
 }
-
-
+#rushfilter-main .range-input{
+    display: flex;
+}
+#rushfilter-main #rushfilter-range{
+    width: 77%;
+    margin-right: 15px;
+}
+#rushfilter-main #rushfilter-rangevalue{
+    width: 40px;
+    min-width: auto;
+    border: none;
+    display: block;
+    background: #007bff;
+    color: #ffffff;
+    padding: 4px;
+    text-align: center;
+}
+#rushfilter-main .featured-images label{
+    padding-left:10px;
+}
 
 #rushfilter-main #rushfilter-posts-column .rushfilter-posts-row{
     display: flex;
@@ -67,7 +100,7 @@
     margin-left: -14px;
 }
 #rushfilter-main #rushfilter-posts-column .rushfilter-post-item{
-    width: 29.9%;
+    width: 30.1%;
     margin: 0px 14px;
     border-radius: 14px;
     background: #ffffff;
@@ -75,6 +108,7 @@
     margin-bottom: 30px;
     border: 1px solid #f4f4f4;
     box-shadow: 0 20px 40px 0 rgb(0 0 0 / 5%);
+    display: none;
 }
 #rushfilter-main .author-head{
     display: flex;
@@ -143,4 +177,31 @@
     font-size: 13px;
     font-weight: 500;
     color:#5a5a5a;
+}
+#rushfilter-main #rushfilter-posts-column .post-filter-heading{
+    color: #333333;
+    margin-top: 0;
+    margin-bottom: 50px;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+/* Load more style */
+#rushfilter-main .rushfilter-loadmore-row{
+    text-align: center;
+    margin-top: 60px;
+}
+#rushfilter-main .rushfilter-loadmore-row a{
+    display: inline-block;
+    background: #252525;
+    color: #ffffff;
+    padding: 10px 26px;
+    border-radius: 6px;
+    margin-top: 30px;
+    font-size: 16px;
+    letter-spacing: 0;
+    font-weight: 500;
+}
+.noposts {
+    pointer-events: none;
 }
