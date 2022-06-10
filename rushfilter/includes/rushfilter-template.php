@@ -100,9 +100,10 @@ $query = new wp_query($args);
                             echo '<div class="rushfilter-items">';
                             if( $terms = get_terms( array( 'post_type' => $set_post_type, 'taxonomy' => $explode_tax, 'hide_empty' => true ) ) ) :
                                 foreach( $terms as $term ) :
+                                    //print_r($term);
                                         echo '<div class="rushfilter-item">';
-                                        echo '<input type="checkbox" class="checkbox" id="' .$term->term_id. '" name="'. $term->taxonomy.'filter[]" value="' .$term->term_id. '">
-                                    <label for="'. $term->taxonomy.'filter">' .$term->name. '</label><br>';
+                                        echo '<input type="checkbox" class="checkbox" id="' .$term->term_id. '" name="'. $term->taxonomy.'[]" value="' .$term->term_id. '">
+                                    <label for="'. $term->taxonomy.'">' .$term->name. '</label><br>';
                                         echo '</div>';
                                 endforeach;
                             endif;
@@ -138,9 +139,14 @@ $query = new wp_query($args);
                 <?php
                        echo '<h2 class="filter-heading">Author <span class="icon"><img src="'. plugin_dir_url( __FILE__ ) . '../assets/images/angle-down-solid.svg' .'"></span></h2>';
                             echo '<div class="rushfilter-items">';
-                                        echo '<div class="rushfilter-item">';
-                                        echo '<input type="radio" id="rushfilter-author-radio" name="rushfilter-radio" value=""><label for="rushfilter-radio">Admin</label><br>';
-                                        echo '</div>';
+                            $blogusers = get_users( array( 'role__in' => array( 'administrator', 'author', 'editor' ) ) );
+                            foreach ( $blogusers as $user ) {
+                                //print_r($user);
+                                echo '<div class="rushfilter-item">';
+                                echo '<input type="radio" id="rushfilter-author-radio" name="authorname" value="' . esc_html( $user->user_login ) . '"><label for="authorname">' . esc_html( $user->user_login ) . '</label><br>';
+                                echo '</div>';
+                                echo '<span></span>';
+                            }
                             echo '</div>';
                         ?>
                     </div>
@@ -148,6 +154,7 @@ $query = new wp_query($args);
 
             <input type="hidden" name="action" value="global_post_type_action">
             <input type = "hidden" id="post_type_hidden" name = "post_type_hidden" value = "<?php echo $post_type ?>">
+            <input type = "hidden" id="post_id_hidden" name = "post_id_hidden" value = "<?php echo $post_id ?>">
 
 
                 </form>
@@ -262,6 +269,9 @@ if ( in_array($post_type, $get_post_type_db) ) {
 
             </div>
         </div>
+    </div>
+    <div id="preloader" class="lds-dual-ring hidden overlay">
+        <div id="loader"></div>
     </div>
 </div>
 

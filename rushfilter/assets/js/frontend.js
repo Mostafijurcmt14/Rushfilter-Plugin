@@ -32,6 +32,9 @@ jQuery(function($) {
           url:rushfilter_frontend_global_url.ajax_url,
           data:formID,
           type:'post',
+          beforeSend: function() {
+            $('#preloader').removeClass('hidden');
+          },
           success: function( data ) {
             console.log(data);
           $('#filterResponse').html(data);
@@ -43,7 +46,10 @@ jQuery(function($) {
               $("#rushfilter-main .rushfilter-post-item:hidden").slice(0, 6).slideDown();
             });
 
-          }
+          },
+          complete: function(){
+            $('#preloader').addClass('hidden');
+          },
         })
       });
     }); 
