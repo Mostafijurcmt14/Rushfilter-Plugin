@@ -25,7 +25,7 @@ margin-bottom: 20px;
 display: flex;
     justify-content: center;
     width: 140px;
-    background: #394264;
+    background: #350095;
     color: #ffffff;
     text-decoration: none;
     border-radius: 5px;
@@ -36,7 +36,7 @@ display: flex;
     transition: 0.3s;
 }
 .rushfilter-common-button:hover, .rushfilter-common-button:focus, .rushfilter-common-button:active{
-	background: #FCB150;
+	background: #6a31d1;
 	color:#ffffff;
 }
 
@@ -57,7 +57,7 @@ font-style: initial;
 }
 .rushfilter-header .rushfilter-main-heading{
     margin:0px;
-    background: #394264;
+    background: #350095;
     border-radius: 5px;
     color: #fff;
     display: flex;
@@ -65,7 +65,7 @@ font-style: initial;
     align-items: center;
 }
 .rushfilter-header .get-information-btn{
-	background: #FCB150;
+	background: #6a31d1;
     color: #ffffff;
     text-decoration: none;
     border-radius: 5px;
@@ -75,7 +75,7 @@ font-style: initial;
 	transition:0.3s;
 }
 .rushfilter-header .get-information-btn:hover{
-	background: #1f253d;
+	background: #49199f;
 }
 .rushfilter-header .admin-filter-icon{
     width: 25px;
@@ -83,7 +83,7 @@ font-style: initial;
 }
 .rushfilter-header .rushfilter-heading{
     margin-bottom: 20px;
-    background: #394264;
+    background: #350095;
     border-radius: 5px;
     color: #fff;
     padding: 25px 20px;
@@ -96,9 +96,9 @@ font-style: initial;
     align-items: flex-start;
 }
 .main-menu-column{
-width: 22%;
+    width: 22%;
     height: 400px;
-    background: #394264;
+    background: #350095;
     border-radius: 5px 0px 0px 5px;
 }
 .titular {
@@ -164,11 +164,11 @@ line-height: 60px;
 
 
 .right-side-column{
-width: 78%;
+    width: 100%;
     background: #fff;
     padding: 20px 20px 50px;
-    min-height: 360px;
-	    border-radius: 0px 5px 5px 0px;
+    min-height: 600px;
+    border-radius: 0px 5px 5px 0px;
 }
 
 
@@ -232,10 +232,10 @@ z-index: 101;
 }
 
 .modal-header {
-    background: #fcb150;
+    background: #350095;
 }
 .modal-header h3{
-    background: #fcb150;
+    background: #350095;
     text-transform: capitalize;
     font-size: 16px;
     color: white;
@@ -247,12 +247,13 @@ z-index: 101;
   justify-content: space-between;
 }
 .closeinfo{
-	background: #fcb150;
+	background: #350095;
     border: none;
     color: #fff;
     border-radius: 5px;
     padding: 8px 10px;
 	cursor:pointer;
+    transition: 0.3s;
 }
 .closeinfo:hover{
 	opacity:0.5;
@@ -267,8 +268,9 @@ z-index: 101;
 
 
 .rushfilter-common-button i{
-	font-size:25px;
-	margin-right:10px;
+    font-size: 20px;
+    margin-right: 10px;
+    margin-top: 3px;
 }
 .rushfitler-heading{
 	margin-bottom:20px;
@@ -279,6 +281,8 @@ z-index: 101;
 	display:none;
 }
 .rushfilter-create-form{
+    max-width: 600px;
+    margin: 0 auto;
 margin-top: 30px;
     background: #ffffff;
     padding: 20px;
@@ -288,9 +292,15 @@ margin-top: 30px;
 .rushfilter-create-form input{
 	height: 42px;
     width: 100%;
-    border: 1px solid #a3a8b9;
+    border: 1px solid #d7d7d7;
 	    font-size: 15px;
     font-weight: 500;
+    color: #727272;
+}
+.rushfilter-create-form input:focus{
+    border-color: #d7d7d7;
+    color: inherit;
+    box-shadow: none;
 }
 .rushfilter-create-form .rush-tax-checkbox{
     display: flex;
@@ -299,6 +309,8 @@ margin-top: 30px;
 }
 .rushfilter-create-form .rush-tax-checkbox label{
     margin: 0;
+    text-transform: capitalize;
+    color: #727272;
 }
 .rushfilter-create-form input[type=checkbox]{
     height: 20px;
@@ -315,9 +327,14 @@ margin-top: 30px;
     height: 42px;
     width: 100%;
 	max-width:100%;
-    border: 1px solid #a3a8b9;
+    border: 1px solid #d7d7d7;
     font-size: 15px;
     font-weight: 500;
+}
+.rushfilter-create-form select:focus{
+    border-color: #d7d7d7;
+    color: inherit;
+    box-shadow: none;
 }
 .rushfilter-create-form label{
 	    font-size: 14px;
@@ -329,10 +346,39 @@ margin-top: 30px;
     margin-top: 0px;
     margin-bottom: 18px;
 }
+
+
+
+.rushfilter-create-form .rushfilter-item label{
+    margin-bottom: 0px;
+}
+.rushfilter-create-form .range-input{
+    display: flex;
+}
+.rushfilter-create-form #rushfilter-create-range{
+    width: 100%;
+    margin-right: 15px;
+}
+.rushfilter-create-form #create-rushfilter-rangevalue{
+    width: 40px !important;
+    min-width: auto;
+    border: none;
+    display: block;
+    background: #350095;
+    color: #ffffff;
+    padding: 4px;
+    text-align: center;
+}
+.rushfilter-create-form .create-value-hidden{
+    display: none;;
+}
+
+
+
 .rushfilter-create-form .rushfilter-submit{
 	height: 50px;
 	border: none;
-    background: #394264;
+    background: #350095;
     color: #ffffff;
     text-decoration: none;
     border-radius: 5px;
@@ -345,13 +391,18 @@ margin-top: 30px;
     transition: 0.3s;
 }
 .rushfilter-create-form .rushfilter-submit:hover, .rushfilter-create-form .rushfilter-submit:focus{
-	background:#fcb150;
+	background: #6a31d1;
+    color:#ffffff;
 }
-.reset-button{
+.rushfilter-create-form .reset-button{
 	cursor:pointer;
+    color: #6a31d1 !important;
+    transition: 0.3s;
 }
-
-
+.rushfilter-create-form .reset-button:hover, .rushfilter-create-form .reset-button:focus{
+    color: #6a31d1 !important;
+    opacity: 0.5;
+}
 
 
 
@@ -375,9 +426,9 @@ margin-top: 30px;
 .rushfilter-lists table tbody tr th {
 padding-top: 18px;
     padding-bottom: 18px;
-    background-color: #394264;
+    background-color: #350095;
     color: #ffffff;
-    border-bottom: 2px solid #fcb150;
+    border-bottom: 2px solid #dc3545;
     font-size: 15px;
     font-weight: 500;
 	    font-family: 'Ubuntu', sans-serif;
@@ -387,6 +438,7 @@ padding-top: 18px;
 }
 .rushfilter-lists table tbody tr td.center {
   text-align: center;
+  color: #350095;
 }
 .rushfilter-lists table tbody tr td:last-of-type,
 .rushfilter-lists table tbody tr th:first-of-type {
@@ -408,6 +460,7 @@ padding-top: 18px;
     font-weight: 400;
     font-family: 'Ubuntu', sans-serif;
     padding: 20px 10px;
+    text-align: center;
 }
 .rushfilter-lists table tbody tr:last-of-type td:first-of-type {
   border-bottom-left-radius: 8px;
@@ -430,7 +483,7 @@ padding-top: 18px;
 }
 .rushfilter-lists table td i{
 	font-size:16px;
-	color:#394264;
+	color:#350095;
 }
 
 
@@ -472,7 +525,7 @@ position: absolute;
     transition: .4s;
 }
 .rushfilter-lists table input:checked + .slider {
-  background-color: #fcb150;
+  background-color: #dc3545;
 }
 
 input:checked + .slider:before {

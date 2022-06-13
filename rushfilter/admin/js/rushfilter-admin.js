@@ -28,6 +28,14 @@ $(".openeditmodal").click(function(){
 
 
 
+// Range input count showing 
+$('#rushfilter-create-range').on('change', function(){
+	const $this = $(this);
+	$('#create-rushfilter-rangevalue').val($this.val());
+	$('.create-value-hidden').text($this.val());
+});
+
+
 // Ajax request for post type tax name filter create form
 $(document).ready(function(){
 	$('#select-posttype').on('change', function(event) {

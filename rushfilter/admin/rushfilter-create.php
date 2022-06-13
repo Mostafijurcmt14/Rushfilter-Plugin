@@ -6,31 +6,11 @@
     ?>
 <div class="rushfilter-admin-wrap">
    <div class="main-container">
-      <div class="main-menu-column">
-         <div class="menu-box block">
-            <!-- MENU BOX (LEFT-CONTAINER) -->
-            <h2 class="titular">MENU BOX</h2>
-            <ul class="menu-box-menu">
-               <li>
-                  <a class="menu-box-tab" href="#6"><i class="fa-regular fa-filter"></i> Filter Generate</a>
-               </li>
-               <li>
-                  <a class="menu-box-tab" href="#8"><i class="fa-solid fa-bars"></i> All Filters</a>
-               </li>
-               <li>
-                  <a class="menu-box-tab" href="#10"><i class="fa-solid fa-calendar-days"></i> Events</a>
-               </li>
-               <li>
-                  <a class="menu-box-tab" href="#12"><i class="fa-regular fa-gear"></i> Account Settings</a>
-               </li>
-            </ul>
-         </div>
-      </div>
       <!-- end right-container -->
       <div class="right-side-column">
          <div class="rushfilter-create-filter">
             <h2 class="rushfitler-heading">
-               Create a New Ajax Post Filter
+               Create a New Ajax Post, Product & Custom Post Type Filter
             </h2>
             <div class="rushfilter-create-button">
                <a href="javascript:void(0)" class="rushfilter-common-button" id="rushfilterCreate"><i class="fa-solid fa-plus"></i> Create Filter</a>
@@ -43,8 +23,9 @@
                   <input type="hidden" name="action" value="rushfilter_create_action">
                   <label for="fname">Filter Name</label><br>
                   <input type="text" id="#" name="rushfilter_name"><br>
-                  <label for="rushfilter_post_type">Select Post Type</label><br>
+
                   <!-- Select post type for filter -->
+                  <label for="rushfilter_post_type">Select Post Type</label><br>
                   <select name="rushfilter_post_type" id="select-posttype">
                      <option value="" disabled selected>Choose post type</option>
                      <?php
@@ -64,11 +45,20 @@
                          ?> 
                   </select>
                   <br>
+
                   <!-- Select taxonomy for post type -->
                   <br>
                   <div id="rushfilter-post-type-tax"></div>
-                  <!-- <label for="rushfilter_postperpage">Posts Per Page</label><br>
-                     <input type="range" id="#" name="rushfilter_postperpage" value="6"><br> -->
+
+               <div class="rushfilter-item">
+                  <label for="rushfilter_postperpage">Set Post Per-Page</label><br>
+                  <div class="range-input">
+                     <input type="range" id="rushfilter-create-range" name="rushfilter_postperpage" min="0" max="100" value="0" step="1">
+                     <div class="create-value-hidden">0</div>
+                     <input type="text" id="create-rushfilter-rangevalue" value="0">
+                  </div>
+               </div>
+
                   <?php submit_button( 'Add Filter', 'rushfilter-submit' ); ?>
                   <input type="reset" class="reset-button">
                </form>

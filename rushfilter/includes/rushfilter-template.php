@@ -47,16 +47,24 @@ if (in_array($post_type, $get_post_type_db)) {
 
 if ( in_array($post_type, $get_post_type_db) ) {
     $getResult_tax =  $wpdb->get_results("SELECT * FROM $table_name WHERE id = $set_post_id ");
+    //print_r($getResult_tax );
+
+    if($getResult_tax){
     $tax_array = array();
-  
+    //print_r($tax_array );
+    
     foreach( $getResult_tax as $getResults ) {
         array_push($tax_array, $getResults->post_taxonomy);
     }
-
-    $explode_taxs = explode(',', $tax_array[0]);
-    // print_r($explode_taxs);
+        $explode_taxs = explode(',', $tax_array[0]);
+        //print_r($explode_taxs);
+    
+    }
 }
 
+
+// Get post per page from database 
+$postPerPage =  $wpdb->get_results("SELECT * FROM $table_name WHERE id = $set_post_id ");
 ?>
 
 
@@ -71,8 +79,11 @@ $args = array(
     'order' => 'ASC',
 );
 $query = new wp_query($args);
-?>
 
+
+
+if(isset( $explode_taxs )){
+?>
 
 <div id="rushfilter-main">
     <div class="rushfilter-wrap">
@@ -85,7 +96,7 @@ $query = new wp_query($args);
 
 
                 <?php 
-                if(isset( $explode_taxs )){
+    
                     foreach( $explode_taxs as $explode_tax ) {
                         // print_r($explode_tax);
                 ?>
@@ -102,8 +113,13 @@ $query = new wp_query($args);
                                 foreach( $terms as $term ) :
                                     //print_r($term);
                                         echo '<div class="rushfilter-item">';
+                                        echo '<div class ="input-type">';
                                         echo '<input type="checkbox" class="checkbox" id="' .$term->term_id. '" name="'. $term->taxonomy.'[]" value="' .$term->term_id. '">
                                     <label for="'. $term->taxonomy.'">' .$term->name. '</label><br>';
+                                        echo '</div>';
+                                        echo '<div class="post-count">';
+                                        echo '<span>('.$term->count.')</span>';
+                                        echo '</div>';
                                         echo '</div>';
                                 endforeach;
                             endif;
@@ -112,7 +128,7 @@ $query = new wp_query($args);
                         ?>
                         </div>
                     </div>
-                    <?php } } ?>
+                    <?php } ?>
 
                     
                         
@@ -123,8 +139,13 @@ $query = new wp_query($args);
                             echo '<div class="rushfilter-items">';
                                         echo '<div class="rushfilter-item range-input">';
                                         ?>
-                                        <input type="range" id="rushfilter-range" name="rangeInput" min="10" max="100" value="10" step="1">
-                                        <input type="text" id="rushfilter-rangevalue" value="10">
+                                        <input type="range" id="rushfilter-range" name="rangeInput" min="0" max="100" value="0" step="1">
+                                        <div class="value-hidden">6</div>
+                                        <input type="text" id="rushfilter-rangevalue" value="<?php 
+                                            foreach ($postPerPage as $postPer){
+                                                echo $postPer->Post_per_page;
+                                            }
+                                        ?>">
                                        <?php
                                         echo '</div>';
                             echo '</div>';
@@ -134,7 +155,7 @@ $query = new wp_query($args);
 
 
 
-            <div class="single-filter-item">
+            <div class="single-filter-item author-items">
                 <div id="accordion" class="rushfilter-row">
                 <?php
                        echo '<h2 class="filter-heading">Author <span class="icon"><img src="'. plugin_dir_url( __FILE__ ) . '../assets/images/angle-down-solid.svg' .'"></span></h2>';
@@ -156,7 +177,6 @@ $query = new wp_query($args);
             <input type = "hidden" id="post_type_hidden" name = "post_type_hidden" value = "<?php echo $post_type ?>">
             <input type = "hidden" id="post_id_hidden" name = "post_id_hidden" value = "<?php echo $post_id ?>">
 
-
                 </form>
                 </div>
 
@@ -177,7 +197,16 @@ if ( in_array($post_type, $get_post_type_db) ) {
                 ?>
                 
                 <div id="rushfilter-posts-column">
+                    <div class="post-filter-top-bar">
                     <h2 class="post-filter-heading">Blog posts</h2>
+                    <form action="#" method="POST">
+                        <select id="cars" name="cars">
+                            <option value="volvo">Default sorting</option>
+                            <option value="saab">ASC</option>
+                            <option value="fiat">DES</option>
+                        </select>
+                    </form>
+                    </div>
                     <div id ="filterResponse" class="rushfilter-posts-row">
                         <?php
                             while ( $post_query->have_posts() ) : $post_query->the_post();
@@ -260,7 +289,7 @@ if ( in_array($post_type, $get_post_type_db) ) {
                     
                     </div>
                     <div class="rushfilter-loadmore-row">
-                                <div class="rushfilter-post-count">Showing <span>12</span> of <span>17</span></div>
+                                <div class="rushfilter-post-count">Showing <span class="current"></span> of <span class="total"></span></div>
                                 <a href="javascript:void(0" class="rushfilter-loadmore">Load more</a>
                             </div>
                 </div>
@@ -276,6 +305,10 @@ if ( in_array($post_type, $get_post_type_db) ) {
 </div>
 
 <?php
+}
+else{
+    echo ' Filter not found! ';
+}
 // End post/product/grid style tempalte
     return ob_get_clean();
 }
