@@ -21,6 +21,7 @@ define ( "RUSHFILTER_DB_VERSION","1.0.0" );
 * Rush Filter Main Class
 */
 
+if ( !class_exists( 'rushFilterMainClass' ) ) {
 class rushFilterMainClass {
 	
 	private $version;
@@ -35,37 +36,37 @@ class rushFilterMainClass {
 		// Rush Filter Activation Hook
 		register_activation_hook(__FILE__, [ $this, 'rushfilter_activation_hook'] );
 		
-		// Rush Filter Version
+		// Rush Filter Version Time
 		$this->version = time();
 		
-		// Rush Filter Plugin Loaded
+		// Rush Filter Plugin Loaded Action Hook
 		add_action( 'plugins_loaded', [ $this, 'rushfilter_delete_action' ] ); 
 		
-		// Rush Filter Main Admin Menu
+		// Rush Filter Main Admin Menu Action Hook
 		add_action( 'admin_menu', [ $this, 'rush_filter_admin_menu' ] ); 
+
+		add_action( 'admin_init', [ $this, 'myplugin_settings_inits' ] );
 		
 		add_action( 'admin_post_rushfilter_create_action', [ $this, 'rushfilter_create_action' ] ); 
 		add_action( 'admin_post_rushfilter_update_action', [ $this, 'rushfilter_update_action' ] ); 
 		
-		
-		// Admin Head Action Hook
+		// Rush Filter Admin Head Action Hook
 		add_action( 'admin_head', [ $this, 'rushfilter_admin_head' ] );
 
-		
-		// Rush Filter Admin Script
+		// Rush Filter Admin Script Action Hook
 		add_action( 'admin_enqueue_scripts', [ $this, 'rush_filter_admin_enqueue_script' ] ); 
 
-		// Rush Filter FrontEnd Script
+		// Rush Filter FrontEnd Script Action Hook
 		add_action( 'wp_enqueue_scripts', [ $this, 'rush_filter_frontend_enqueue_script' ] ); 
 
-		// Rush Filter Post Type Tax Name Ajax Action
+		// Rush Filter Post Type Tax Name Ajax Action Hook
 		add_action( 'wp_ajax_get_post_tax_name_action', [ $this, 'get_post_type_tax_name' ] );
 
-		// Rush Filter Main Post Filter Ajax Action
+		// Rush Filter Main Post Filter Ajax Action Hook
 		add_action('wp_ajax_global_post_type_action', [ $this, 'global_get_ajax_request_post_filter'] ); 
 		add_action('wp_ajax_nopriv_global_post_type_action', [ $this, 'global_get_ajax_request_post_filter'] );
 
-		// Includes
+		// Includes Rush Filter Main View Post Template
 		require_once('includes/rushfilter-template.php');
 
 		// Rush Filter Deactivation Hook
@@ -111,7 +112,7 @@ class rushFilterMainClass {
 	}
 
 /*
-* Rush filter admin enqueue scripts
+* Rush Filter Admin Enqueue Scripts
 *
 */
 	public function rush_filter_admin_enqueue_script(){
@@ -130,21 +131,21 @@ class rushFilterMainClass {
 	}
 
 /*
-* Rush filter frontend enqueue scripts
+* Rush Filter Frontend Enqueue Scripts
 *
 */
 	public function rush_filter_frontend_enqueue_script(){
 
-		wp_enqueue_style( 'rush-filter-template-design', plugin_dir_url( __FILE__ ) . 'assets/css/rushfilter-template-design.css',  false, $this->version );
+		wp_enqueue_style( 'rush-filter-template-design', plugin_dir_url( __FILE__ ) . 'public/css/rushfilter-template-design.css',  false, $this->version );
 		
-		wp_enqueue_script( 'rush-filter-ui-js', plugin_dir_url( __FILE__ ) . 'assets/js/jquery-ui.js', $this->version, true, 10 );
+		wp_enqueue_script( 'rush-filter-ui-js', plugin_dir_url( __FILE__ ) . 'public/js/jquery-ui.js', $this->version, true, 10 );
 
-		wp_enqueue_script( 'rush-filter-frontend-js', plugin_dir_url( __FILE__ ) . 'assets/js/frontend.js',['jquery'], $this->version, true, 12 );
+		wp_enqueue_script( 'rush-filter-frontend-js', plugin_dir_url( __FILE__ ) . 'public/js/frontend.js',['jquery'], $this->version, true, 12 );
 
-		//Localize for frontend filter page global
+		//Localize For Frontend Filter Post Page Global
 		wp_localize_script(
 			'rush-filter-frontend-js','rushfilter_frontend_global_url',[
-				'ajax_url' => admin_url( 'admin-ajax.php' ), // Ajax URL
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
 			]
 		);
 
@@ -152,7 +153,7 @@ class rushFilterMainClass {
 	}
 
 /*
-* Create admin main menu
+* Rush Filter Create Admin Main Menu
 *
 */
 	function rush_filter_admin_menu() {
@@ -195,72 +196,54 @@ class rushFilterMainClass {
 	}
 	
 
-// Get post type tax name from ajax request
+// Get Post Type Tax Name From Ajax Request
 public function get_post_type_tax_name(){
 	?> 
 	<label for="rushfilter_post_taxonomy">Select Taxonomy</label><br>
 		<?php
 			$itemId = $_POST['itemId'];
 			$taxonomies = get_object_taxonomies( array( 'post_type' => $itemId ) );   
-				if (is_array($taxonomies)) {
-					foreach( $taxonomies as $taxonomy ) :
-						?>
+			if (is_array($taxonomies)) {
+				foreach( $taxonomies as $taxonomy ) :
+					?>
 						<div class="rush-tax-checkbox">
-						<input type="checkbox" id="<?php echo $taxonomy; ?>" name="rushfilter_post_taxonomy[]" class="pinToggles"  value="<?php echo $taxonomy; ?>">
-						<label for="tagfilter"><?php echo $taxonomy; ?></label><br>
+							<input type="checkbox" id="<?php echo $taxonomy; ?>" name="rushfilter_post_taxonomy[]" class="pinToggles"  value="<?php echo $taxonomy; ?>">
+							<label for="tagfilter"><?php echo $taxonomy; ?></label><br>
 						</div>
-						<?php
-					endforeach;
-				}
+					<?php
+				endforeach;
+			}
 		?>
 	<?php
 	wp_die();  
 }
 
 
-
-
-
-
-
-// Get global post filter data from ajax request
+// Get Global Post Filter Data From Ajax Request
 function global_get_ajax_request_post_filter(){
-
 	require_once('includes/rushfilter-post.php');
-
 	die();
 }
 
-
-
-
-
-
-
 /*
-* Rush filter all admin menu calback function
+* Rush Filter All Admin Menu Callback Function
 *
 */
-
 	// Rush Filter Main Page Display
 	function rushfilter_admin_page(){
 		include( plugin_dir_path(__FILE__) . 'admin/rushfilter-create.php' );
 	}
 	
-	// Add New Filter
+	// Rush Filter Insert Query For Create New Filter
 	function rushfilter_create_action(){
 		global $wpdb;
 			$table_name = $wpdb->prefix.'rush_filter';
-
-
 			$rushfilter_create_nonce = sanitize_text_field($_POST['create_nonce']);
 			$post_name = sanitize_text_field($_POST['rushfilter_name']);
 			$post_type = sanitize_text_field($_POST['rushfilter_post_type']);
 			$post_per_page = sanitize_text_field($_POST['rushfilter_postperpage']);
-
 			$post_taxonomy_implode= implode(',', $_POST['rushfilter_post_taxonomy']);
 			$post_taxonomy = sanitize_text_field($post_taxonomy_implode);
-
 
 			if( wp_verify_nonce($rushfilter_create_nonce, 'rushfilter_create_nonce') ){
 			$wpdb->insert($table_name,[
@@ -269,30 +252,27 @@ function global_get_ajax_request_post_filter(){
 			'Post_per_page' => $post_per_page,
 			'post_taxonomy' => $post_taxonomy,
 			]);
+
 			wp_redirect( admin_url( 'admin.php?page=all-rushfilter' ) );
 
 			}
 		}
 		
-		
-		// Update Filter
+		// Rush Filter Update Query 
 		function rushfilter_update_action(){
-		global $wpdb;
+			global $wpdb;
 			$table_name = $wpdb->prefix.'rush_filter';
-
-
 			$rushfilter_update_nonce = sanitize_text_field($_POST['edit_nonce']);
 			$post_name = sanitize_text_field($_POST['rushfilter_name']);
 			$post_type = sanitize_text_field($_POST['rushfilter_post_type']);
 			$post_per_page = sanitize_text_field($_POST['rushfilter_postperpage']);
-
-			$post_taxonomy_implode= implode(',', $_POST['rushfilter_post_taxonomy']);
+			if(isset($_POST['rushfilter_post_taxonomy'])){
+				$post_taxonomy_implode= implode(',', $_POST['rushfilter_post_taxonomy']);
+			}
 			$post_taxonomy = sanitize_text_field($post_taxonomy_implode);
-			
 			$id = sanitize_text_field( $_POST['update_id'] );
 
 			if( wp_verify_nonce($rushfilter_update_nonce, 'rushfilter_edit_nonce') ){
-				
 			$wpdb->update($table_name,[
 			'post_name' => $post_name,
 			'post_type' => $post_type,
@@ -300,44 +280,49 @@ function global_get_ajax_request_post_filter(){
 			'post_taxonomy' => $post_taxonomy],
 			[ 'id' => $id ]
 			);
+
 			wp_redirect( admin_url( 'admin.php?page=all-rushfilter' ) );
 
 			}
 		}
 	
 
-	// Delete Rush Filter Item
-	 function rushfilter_delete_action(){ 
-	 if( isset($_GET['did']) ){
-		global $wpdb;  
-		 $deleteFilter= absint($_GET['did']);
-		 $table_name = $wpdb->prefix.'rush_filter';
-		 $wpdb->delete( $table_name, array( 'id' => $deleteFilter ) );	 
-	 } 
+	// Rush Filter Delete Item Query
+	function rushfilter_delete_action(){ 
+	 	if( isset($_GET['did']) ){
+			global $wpdb;  
+			$deleteFilter= absint($_GET['did']);
+			$table_name = $wpdb->prefix.'rush_filter';
+			$wpdb->delete( $table_name, array( 'id' => $deleteFilter ) );	 
+	 	} 
 	}
 	
-	// Rush Filter All Lists Diplay
+	// Rush Filter Include All Lists Diplay
 	function all_rush_filter_lists(){
 		include( plugin_dir_path(__FILE__) . 'admin/rushfilter-lists.php' );
 	}
 
-	// Rush Filter Edit Page
+	// Rush Filter Include Edit Page
 	function rush_filter_edit_page(){	
 		include( plugin_dir_path(__FILE__) . 'admin/rushfilter-edit.php' );
 	}
 
-	
-	// Rush Filter Settings Page
+	// Rush Filter Include Settings Page
 	function rush_filter_settings_page(){
 		include( plugin_dir_path(__FILE__) . 'admin/rushfilter-settings.php' );
 	}
-	
+
+	// Rush Filter Include Settings Fields
+	function myplugin_settings_inits(){
+		include( plugin_dir_path(__FILE__) . 'admin/rushfilter-post-settings-fields.php' );
+	}
 	
 	// Rush Filter Remove Edit Menu From Admin Menu
 	function rushfilter_admin_head(){
 		remove_submenu_page( 'rushfilter-edit.php', 'rushfilter-edit' );
 	}
 	
+}
 }
 
 $rushFilterMainClass = new rushFilterMainClass();

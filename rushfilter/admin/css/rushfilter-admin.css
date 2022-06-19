@@ -294,7 +294,7 @@ margin-top: 30px;
     width: 100%;
     border: 1px solid #d7d7d7;
 	    font-size: 15px;
-    font-weight: 500;
+        font-weight: 400;
     color: #727272;
 }
 .rushfilter-create-form input:focus{
@@ -329,7 +329,7 @@ margin-top: 30px;
 	max-width:100%;
     border: 1px solid #d7d7d7;
     font-size: 15px;
-    font-weight: 500;
+    font-weight: 400;
 }
 .rushfilter-create-form select:focus{
     border-color: #d7d7d7;
@@ -477,7 +477,7 @@ padding-top: 18px;
     border-radius: 5px;
 }
 .rushfilter-lists table td a:hover i, .rushfilter-lists table td a:focus i{
-	color:#FCB150;
+	color:#dc3545;
 	box-shadow:none;
 	outline:none;
 }
@@ -559,5 +559,49 @@ input:checked + .slider:before {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0px 0px 18px #0000001a;
-    border: 1px solid #fcb150;
+}
+
+
+
+
+
+
+.rushfilter-settings-wrap{
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 18px #0000001a;
+    background: #ffffff;
+    font-family: 'Ubuntu', sans-serif;
+}
+.rushfilter-settings-wrap form>h2{
+    margin-bottom: 30px;
+}
+.rushfilter-settings-wrap input[type=text]{
+    height: 42px;
+    width: 400px;
+    border: 1px solid #d7d7d7;
+    font-size: 15px;
+    font-weight: 400;
+    color: #252525;
+}
+.rushfilter-settings-wrap #submit{
+    background: #350095;
+    border: none;
+    padding: 6px 20px;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+.rushfilter-settings-wrap #submit:hover{
+    background: #6a31d1;
+}
+.rushfilter-settings-wrap #submit:focus{
+    background: #6a31d1;
+    box-shadow: none;
+    outline: none;
+}
+.rushfilter-settings-wrap form .form-table{
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    display: inline-block;
+    border-bottom: 1px solid rgba(0,0,0,.05);
 }

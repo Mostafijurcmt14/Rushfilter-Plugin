@@ -1,12 +1,16 @@
 <?php
    defined( 'ABSPATH' ) || exit;
-   ?>
-<?php 
+?>
+
+<?php
+   // Include Rush Filter Global Header File
    include( plugin_dir_path(__FILE__) . 'rushfilter-header.php' );
-    ?>
+?>
+
+<!-- Rush Filter Create New Post Filter Html Markup -->
 <div class="rushfilter-admin-wrap">
    <div class="main-container">
-      <!-- end right-container -->
+      <!-- End Right Container -->
       <div class="right-side-column">
          <div class="rushfilter-create-filter">
             <h2 class="rushfitler-heading">
@@ -19,12 +23,15 @@
                <form action="<?php echo admin_url( 'admin-post.php' ); ?>" method="POST">
                   <?php 
                      wp_nonce_field('rushfilter_create_nonce', 'create_nonce');
-                     ?>
+                  ?>
+
                   <input type="hidden" name="action" value="rushfilter_create_action">
-                  <label for="fname">Filter Name</label><br>
+
+                  <!-- Rush Filter Name Input -->
+                  <label for="rushfilter_name">Filter Name</label><br>
                   <input type="text" id="#" name="rushfilter_name"><br>
 
-                  <!-- Select post type for filter -->
+                  <!-- Select Post Type For Filter -->
                   <label for="rushfilter_post_type">Select Post Type</label><br>
                   <select name="rushfilter_post_type" id="select-posttype">
                      <option value="" disabled selected>Choose post type</option>
@@ -33,34 +40,40 @@
                         'public' => true,
                         );
                         $post_types = get_post_types( $args, 'objects' );
-                        unset($post_types['attachment']);
-                        unset($post_types['e-landing-page']);
-                        unset($post_types['elementor_library']);
-                         //print_r($post_type);
-                        foreach ($post_types as $post_type) {
-                        	$labels = get_post_type_labels( $post_type );
-                        
-                        	echo '<option value="'.esc_attr($post_type->name).'">'.esc_attr($labels->name).'</option>';
+                        if( isset($post_types) ){
+                           unset($post_types['attachment']);
+                           unset($post_types['e-landing-page']);
+                           unset($post_types['elementor_library']);
+                            //print_r($post_type);
+                           foreach ($post_types as $post_type) {
+                              $labels = get_post_type_labels( $post_type );
+                              echo '<option value="'.esc_attr($post_type->name).'">'.esc_attr($labels->name).'</option>';
+                           }
                         }
                          ?> 
                   </select>
                   <br>
 
-                  <!-- Select taxonomy for post type -->
+                  <!-- Select Taxonomy For Post Type -->
                   <br>
                   <div id="rushfilter-post-type-tax"></div>
 
-               <div class="rushfilter-item">
-                  <label for="rushfilter_postperpage">Set Post Per-Page</label><br>
-                  <div class="range-input">
-                     <input type="range" id="rushfilter-create-range" name="rushfilter_postperpage" min="0" max="100" value="0" step="1">
-                     <div class="create-value-hidden">0</div>
-                     <input type="text" id="create-rushfilter-rangevalue" value="0">
+                  <!-- Set Post Per Page For Filter -->
+                  <div class="rushfilter-item">
+                     <label for="rushfilter_postperpage">Set Post Per-Page</label><br>
+                     <div class="range-input">
+                        <input type="range" id="rushfilter-create-range" name="rushfilter_postperpage" min="0" max="100" value="0" step="1">
+                        <div class="create-value-hidden">0</div>
+                        <input type="text" id="create-rushfilter-rangevalue" value="0">
+                     </div>
                   </div>
-               </div>
-
+                  
+                  <!-- Rush Filter Create Submit Button -->
                   <?php submit_button( 'Add Filter', 'rushfilter-submit' ); ?>
+
+                  <!-- Rush Filter Reset Button -->
                   <input type="reset" class="reset-button">
+
                </form>
                </a>
             </div>

@@ -28,6 +28,10 @@ $(".openeditmodal").click(function(){
 
 
 
+$('.rushfilter-delete-item').click(function(){
+	alert('Are you sure you want to delete?');
+});
+ 
 // Range input count showing 
 $('#rushfilter-create-range').on('change', function(){
 	const $this = $(this);

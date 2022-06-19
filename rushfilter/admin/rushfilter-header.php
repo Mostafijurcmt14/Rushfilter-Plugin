@@ -1,4 +1,8 @@
-	<div class="rushfilter-header">
+<?php
+   defined( 'ABSPATH' ) || exit;
+?>
+<!-- Rush Filter Global Header Html Markup -->
+<div class="rushfilter-header">
 	<div class="rushfilter-heading">
 		<h2 class="rushfilter-main-heading"><img src=" <?php echo plugin_dir_url( __FILE__ ) . '/images/admin-filter.png'; ?> " class="admin-filter-icon"> Rush Filter Dashboard</h2>
 		<a href="javascript:void(0)" onclick="openModal()" class="get-information-btn" id="getinfo">GET INFORMATIONS</a>
@@ -13,9 +17,9 @@ A powerful WooCommerce plugin for products filtering. Filter your products by at
 				  <div class="modal-footer" >
 					Footer
 					<button class="closeinfo">Okay</button>
-				  </div>
+				  	</div>
 				</div>
-			  </div>
 			</div>
+		</div>
 	</div>
-	</div>
+</div>
