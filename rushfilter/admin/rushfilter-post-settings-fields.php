@@ -1,10 +1,5 @@
-
 <?php
    defined( 'ABSPATH' ) || exit;
-?>
-
-<!-- Rush Filter Posts Settings Fields Create -->
-<?php
 // Rush Filter Register Category Label Input
  add_settings_section(
     'rushfilter_lable_change_name_settings_section',
@@ -65,17 +60,9 @@ add_settings_field(
     'rushfilter_lable_change_name_settings_section',
 );
 
-?>
 
 
-
-
-
-
-<!-- Rush Filter Product Settings Fields Create -->
-<?php
-// Rush Filter Register Category Label Input
- add_settings_section(
+add_settings_section(
     'rushfilter_product_lable_change_name_settings_section',
     __( 'Change Product Filter Taxonomy Label', 'rush-filter' ),
     '',
@@ -93,4 +80,5 @@ add_settings_field(
     'rushfilter_product_lable_change_name_settings_section',
 );
 
-?>
+
+

@@ -328,6 +328,10 @@
     font-size: 16px;
     letter-spacing: 0;
     font-weight: 500;
+    transition: 0.3s;
+}
+#rushfilter-main .rushfilter-loadmore-row a:hover{
+    background: #dc3545;
 }
 .noposts {
     pointer-events: none;
