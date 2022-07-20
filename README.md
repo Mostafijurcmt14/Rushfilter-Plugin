@@ -1,0 +1,2 @@
+# Rushfilter-Plugin
+Rushfilter Plugin
