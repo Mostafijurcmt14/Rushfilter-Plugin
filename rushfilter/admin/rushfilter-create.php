@@ -1,10 +1,12 @@
 <?php
    defined( 'ABSPATH' ) || exit;
 ?>
+
 <?php
    // Include Rush Filter Global Header File
    include( plugin_dir_path(__FILE__) . 'rushfilter-header.php' );
 ?>
+
 <!-- Rush Filter Create New Post Filter Html Markup -->
 <div class="rushfilter-admin-wrap">
    <div class="main-container">

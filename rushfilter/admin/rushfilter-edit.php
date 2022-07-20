@@ -44,7 +44,7 @@
                <select name="rushfilter_post_type" id="select-posttype">
                   <option value="" disabled selected>Choose post type</option>
                   <?php
-                           echo '<option value="'.esc_attr(strtolower($result->post_type)).'" selected>'.esc_attr(strtolower($result->post_type)).'</option>';
+                           echo '<option value="'.esc_attr(strtolower($result->post_name)).'" selected>'.esc_attr(strtolower($result->post_name)).'</option>';
                       ?> 
                </select>
 
@@ -54,10 +54,8 @@
                <br>
                <label for="rushfilter_post_taxonomy">Select Taxonomy</label><br>
                <?php
-                  $taxonomies = get_object_taxonomies( array( 'post_type' => strtolower($result->post_type) ) ); 
+                  $taxonomies = get_object_taxonomies( array( 'post_type' => strtolower($result->post_name) ) );   
                   if (is_array($taxonomies)) {
-                     $unset = array('product_shipping_class','product_type','product_visibility','post_format');
-                     $taxonomies = array_diff($taxonomies, $unset);
                      foreach( $taxonomies as $taxonomy ) :
                         $explode_taxs = explode(',', $result->post_taxonomy);
                         //print_r($explode_taxs);

@@ -204,10 +204,6 @@ public function get_post_type_tax_name(){
 			$itemId = $_POST['itemId'];
 			$taxonomies = get_object_taxonomies( array( 'post_type' => $itemId ) );   
 			if (is_array($taxonomies)) {
-				
-				$unset = array('product_shipping_class','product_type','product_visibility','post_format');
-				$taxonomies = array_diff($taxonomies, $unset);
-
 				foreach( $taxonomies as $taxonomy ) :
 					?>
 						<div class="rush-tax-checkbox">
