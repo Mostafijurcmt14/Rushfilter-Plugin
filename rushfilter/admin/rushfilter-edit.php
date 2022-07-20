@@ -54,9 +54,9 @@
                <br>
                <label for="rushfilter_post_taxonomy">Select Taxonomy</label><br>
                <?php
-                  $taxonomies = get_object_taxonomies( array( 'post_type' => strtolower($result->post_type) ) ); 
+                  $taxonomies = get_object_taxonomies( array( 'post_type' => strtolower($result->post_type) ) );   
                   if (is_array($taxonomies)) {
-                     $unset = array('product_shipping_class','product_type','product_visibility','post_format');
+					  $unset = array('product_shipping_class','product_type','product_visibility','post_format');
                      $taxonomies = array_diff($taxonomies, $unset);
                      foreach( $taxonomies as $taxonomy ) :
                         $explode_taxs = explode(',', $result->post_taxonomy);

@@ -1,6 +1,7 @@
 <?php
    defined( 'ABSPATH' ) || exit;
 ?>
+
 <?php
    // Rush Filter Post Filter Ajax Response Template 
    global $post;
@@ -56,10 +57,11 @@
          );
       }
    }
+
 $post_query = new wp_query($args);
+
 ?>
 <?php
-  if( !in_array('product', $set_post_type)){
    while ( $post_query->have_posts() ) : $post_query->the_post();
    $author_id = $post->post_author;	
    $author_id = get_the_author_meta( 'ID' );
@@ -76,10 +78,12 @@ $post_query = new wp_query($args);
       </div>
       <div class="author-name">
          <h3><?php 
+
             $get_author = get_the_author_meta( 'user_nicename', $author_id );
             if( isset($get_author) ){
                echo $get_author;
             }
+
             ?> <span><?php
             $first_name = get_the_author_meta( 'first_name', $author_id );
             $last_name = get_the_author_meta( 'last_name', $author_id );
@@ -102,17 +106,18 @@ $post_query = new wp_query($args);
    <?php
       $posttags = get_the_tags($post->ID);
       if ( isset($posttags) ) {
-      foreach($posttags as $tag) {
+        foreach($posttags as $tag) {
    ?>
    <h3 class="rushfilter-subheading"><?php echo $tag->name . ' '; ?></h3>
    <?php
       }
       }
-   ?>
+      ?>
    <h2 class="rushfilter-heading"><a href="<?php the_permalink(); ?>"><?php
       the_title();
-   ?></a></h2>
+      ?></a></h2>
    <div class="rushfilter-excerpt">
+
     <?php
          global $post;
          $str = get_the_excerpt($post->ID);
@@ -124,8 +129,9 @@ $post_query = new wp_query($args);
          }
          if( isset($str) ){
             echo $str;
-      }
+         }
     ?>
+
    </div>
 
    <div class="rushfilter-meta-info">
@@ -143,6 +149,4 @@ $post_query = new wp_query($args);
 <?php
    endwhile;
    wp_reset_postdata();
-   else{
-      echo do_shortcode ('[products limit="6" columns="2"]');
-  }
+?>

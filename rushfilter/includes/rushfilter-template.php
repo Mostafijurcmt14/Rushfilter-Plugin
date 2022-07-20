@@ -1,6 +1,7 @@
 <?php
     defined( 'ABSPATH' ) || exit;
 ?>
+
 <?php
 // Rush Filter Post Filter Main Template
 function rushfilter_filter($atts){
@@ -68,6 +69,7 @@ function rushfilter_filter($atts){
         $postPerPage =  $wpdb->get_results("SELECT * FROM $table_name WHERE id = $set_post_id ");
     }
 ?>
+
 <?php
 // Deafult Rush Filter Post Grid Style tempalte
 $args = array(
@@ -87,10 +89,12 @@ if(isset( $explode_taxs )){
             <div class="items-row">
                 <div id="filters-column">
                 <form action="" method="POST" id="rushpostfilter">
+
                     <?php 
                         foreach( $explode_taxs as $explode_tax ) {
                         // print_r($explode_tax);
                     ?>
+
                     <div class="single-filter-item">
                     <div id="accordion" class="rushfilter-row">
                     <?php
@@ -134,6 +138,7 @@ if(isset( $explode_taxs )){
                             </div>
                         </div>
                         <?php } ?>
+   
                         <div class="single-filter-item">
                             <div id="accordion" class="rushfilter-row">
                             <?php
@@ -175,6 +180,7 @@ if(isset( $explode_taxs )){
                             <div id="accordion" class="rushfilter-row">
                             <?php
                                 ?>
+
                                 <h2 class="filter-heading"> 
                                 <?php
                                     $get_opt_post_author = get_option( 'rushfilter_post_author_settings_options' );
@@ -208,6 +214,9 @@ if(isset( $explode_taxs )){
                     <input type = "hidden" id="post_id_hidden" name = "post_id_hidden" value = "<?php echo $post_id ?>">
             </form>
         </div>
+
+
+
     <?php
     if ( in_array($post_type, $get_post_type_db) ){
         global $post;
@@ -218,6 +227,7 @@ if(isset( $explode_taxs )){
         );
         $post_query = new wp_query($args);
         ?>
+ 
             <div id="rushfilter-posts-column">
                 <div class="post-filter-top-bar">
                 <h2 class="post-filter-heading">Blog posts</h2>
@@ -231,12 +241,12 @@ if(isset( $explode_taxs )){
                 </div>
                 <div id ="filterResponse" class="rushfilter-posts-row">
                     <?php
-                      if( !in_array('product', $set_post_type)){
                         while ( $post_query->have_posts() ) : $post_query->the_post();
                         $author_id = $post->post_author;	
                         $author_id = get_the_author_meta( 'ID' );
                         $author_image = the_author_meta( 'avatar' , $author_id );
                     ?>
+
                     <div class="rushfilter-post-item">
                         <div class="author-head">
                             <div class="author-image">
@@ -281,6 +291,7 @@ if(isset( $explode_taxs )){
                             }
                             }
                         ?>
+                        
                         <h2 class="rushfilter-heading"><a href="<?php the_permalink(); ?>"><?php
                             the_title();
                         ?></a></h2>
@@ -296,6 +307,7 @@ if(isset( $explode_taxs )){
                             if( isset($str) ){
                                 echo $str;
                             }
+                            
                         ?>
                         </div>
                         <div class="rushfilter-meta-info">
@@ -309,13 +321,10 @@ if(isset( $explode_taxs )){
                         </span></div>
                         </div>
                     </div>
+
                     <?php
                         endwhile;
                         wp_reset_postdata();
-                    }
-                    else{
-                        echo do_shortcode ('[products limit="6" columns="2"]');
-                    }
                     ?>
                 
                 </div>
@@ -324,9 +333,9 @@ if(isset( $explode_taxs )){
                         <a href="javascript:void(0" class="rushfilter-loadmore">Load more</a>
                     </div>
             </div>
-                <?php 
-             } 
-             ?>
+
+                <?php } ?>
+
             </div>
         </div>
     </div>
@@ -334,6 +343,7 @@ if(isset( $explode_taxs )){
         <div id="loader"></div>
     </div>
 </div>
+
 <?php
 }
 else{
